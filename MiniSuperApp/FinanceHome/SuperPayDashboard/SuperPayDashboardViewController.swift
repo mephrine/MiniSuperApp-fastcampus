@@ -119,6 +119,10 @@ final class SuperPayDashboardViewController: UIViewController, SuperPayDashboard
 			balanceStackView.centerYAnchor.constraint(equalTo: cardView.centerYAnchor)
 		])
 	}
+	
+	func updateBalance(to balance: String) {
+		balanceAmountLabel.text = balance
+	}
 }
 
 fileprivate extension SuperPayDashboardViewController {
