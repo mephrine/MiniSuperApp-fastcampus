@@ -42,7 +42,6 @@ final class FinanceHomeViewController: UIViewController, FinanceHomePresentable,
   func setupViews() {
     title = "슈퍼페이"
     tabBarItem = UITabBarItem(title: "슈퍼페이", image: UIImage(systemName: "creditcard"), selectedImage: UIImage(systemName: "creditcard.fill"))
-    view.backgroundColor = .systemBlue
     view.addSubview(stackView)
     NSLayoutConstraint.activate([
 			stackView.topAnchor.constraint(equalTo: view.topAnchor),

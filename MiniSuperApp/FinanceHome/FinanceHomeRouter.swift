@@ -1,6 +1,6 @@
 import ModernRIBs
 
-protocol FinanceHomeInteractable: Interactable, SuperPayDashboardListener {
+protocol FinanceHomeInteractable: Interactable, SuperPayDashboardListener, CardOnFileDashboardListener {
   var router: FinanceHomeRouting? { get set }
   var listener: FinanceHomeListener? { get set }
 }
@@ -13,12 +13,17 @@ final class FinanceHomeRouter: ViewableRouter<FinanceHomeInteractable, FinanceHo
 	private let superPayDashboardBuilder: SuperPayDashboardBuildable
 	private var superPayRouting: Routing?
 	
+	private let cardOnFileDashboardBuilder: CardOnFileDashboardBuildable
+	private var cardOnFileRouting: Routing?
+	
 	init(
 		interactor: FinanceHomeInteractable,
 		viewController: FinanceHomeViewControllable,
-		superPayDashboardBuilder: SuperPayDashboardBuildable
+		superPayDashboardBuilder: SuperPayDashboardBuildable,
+		cardOnFileDashboardBuilder: CardOnFileDashboardBuildable
 	) {
 		self.superPayDashboardBuilder = superPayDashboardBuilder
+		self.cardOnFileDashboardBuilder = cardOnFileDashboardBuilder
     super.init(interactor: interactor, viewController: viewController)
     interactor.router = self
   }
@@ -29,6 +34,15 @@ final class FinanceHomeRouter: ViewableRouter<FinanceHomeInteractable, FinanceHo
 		let dashboard = router.viewControllable
 		viewController.addDashboard(view: dashboard)
 		superPayRouting = router
+		attachChild(router)
+	}
+	
+	func attachCardOnFileDashboard() {
+		guard cardOnFileRouting == nil else { return }
+		let router = cardOnFileDashboardBuilder.build(withListener: interactor)
+		let dashboard = router.viewControllable
+		viewController.addDashboard(view: dashboard)
+		cardOnFileRouting = router
 		attachChild(router)
 	}
 }
